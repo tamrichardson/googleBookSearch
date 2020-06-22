@@ -2,7 +2,7 @@
 ![](https://github.com/tamrichardson/googleBookSearch/blob/master/screenshotbooks.PNG)
 
 <h1>What it does</h1>
-This is a Full-stack MERN app with Google Books API. That will allow you to search for a book by title, Save books, delete, and add a book of your own. This App uses React componenets, and utilize React lifecycle methods to query and display books based on users searches, and stores saved, and created books in MongoDB. 
+This is React-based Google Books Search app. This app will allow the user to search for a book by title, Save books to review or purchase later using Node, Express and MongoDB, delete, and add a book of your own. This app uses React components and utilizes React lifecycle methods to query and display books based on users 
 
 <h1>Link to deployed Github</h1>
 https://tamrichardson.github.io/googleBookSearch/
