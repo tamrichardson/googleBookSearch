@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import SaveBtn from "../components/SaveBtn";
+import DeleteBtn from "../components/DeleteBtn";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
+import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
-import { Input, FormBtn } from "../components/Form";
 
-class Books extends Component {
+
+class SavedBooks extends Component {
   state = {
     books: [],
     searchResults: [],
@@ -45,19 +46,17 @@ class Books extends Component {
     if (this.state.title) {
 
       API.getGoogle(this.state.title)
-
         .then(res => 
           {this.setState({searchResults: res.data.items}, () => console.log(this.state.searchResults))
 
         })
-        
         .catch(err => console.log(err));
     }
   };
 
   saveBook = (title, authors, description, image, link ) => {
     
-  
+    // event.preventDefault();
       API.saveBook({
         title,
         authors,
@@ -65,7 +64,6 @@ class Books extends Component {
         image,
         link
       }).then(res => this.loadBooks())
-           
         .catch(err => console.log(err));
     
   };
@@ -76,38 +74,29 @@ class Books extends Component {
         <Row>
           <Col size="md-12">
             <Jumbotron>
-              <h1>Search for a Book</h1>
+              <h1>Saved Books On My List</h1>
             </Jumbotron>
-            <form>
-              <Input
-                value={this.state.title}
-                onChange={this.handleInputChange}
-                name="title"
-                placeholder="Title (required)"
-              />
-              <FormBtn
-                disabled={!(this.state.title)}
-                onClick={this.handleFormSubmit}
-              >
-                Search Book
-              </FormBtn>
-            </form>
-          </Col>
-        </Row>
-        <Row>
-          <Col size="md-12">
-          <List>
-          {this.state.searchResults.map(book => (
-            <ListItem key={book.id}>
-            <a href={book.volumeInfo.infoLink} alt="link" target="_blank" rel="noopener noreferrer">
-            <strong>
-            {book.volumeInfo.title} by {book.volumeInfo.authors ? book.volumeInfo.authors[0]: "No Author Available"}
-            </strong>
-            </a>
-            <SaveBtn onClick={() => this.saveBook(book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.description, book.volumeInfo.imageLinks.thumbnail, book.volumeInfo.infoLink)} />
-            </ListItem>
-            ))}
+            {this.state.books.length ? (
+              <List>
+                {this.state.books.map(book => (
+                  <ListItem key={book._id}>
+                    <Link to={"/books/" + book._id}>
+                      <strong>
+                        {book.title} 
+                      </strong> by {book.authors}
+                      <br></br>
+                    <br></br>
+                    <img src={book.image} alt="Book"/>
+                    </Link>
+                    
+
+                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                  </ListItem>
+                ))}
               </List>
+            ) : (
+              <h3>No Results to Display</h3>
+            )}
           </Col>
         </Row>
       </Container>
@@ -115,4 +104,4 @@ class Books extends Component {
   }
 }
 
-export default Books;
+export default SavedBooks;
