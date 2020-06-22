@@ -12,7 +12,7 @@ class Books extends Component {
 		searchResults: [],
 		title: '',
 		author: '',
-		synopsis: '',
+		synopsis: ''
   };
   
 	componentDidMount() {
@@ -42,6 +42,7 @@ class Books extends Component {
 		event.preventDefault();
 		if (this.state.title) {
       API.getGoogle(this.state.title)
+     
       
 				.then((res) => {
 					this.setState({ searchResults: res.data.items }, () => console.log(this.state.searchResults));
@@ -79,6 +80,12 @@ class Books extends Component {
 								name="title"
 								placeholder="Title (required)"
 							/>
+              <Input
+                value={this.state.author}
+                onChange={this.handleInputChange}
+                name="author"
+                placeholder="Author (required)"
+              />
 							<FormBtn disabled={!this.state.title} onClick={this.handleFormSubmit}>
 								Search Book
 							</FormBtn>
