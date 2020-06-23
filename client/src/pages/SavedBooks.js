@@ -46,26 +46,26 @@ class SavedBooks extends Component {
     if (this.state.title) {
 
       API.getGoogle(this.state.title)
-        .then(res => 
-          {this.setState({searchResults: res.data.items}, () => console.log(this.state.searchResults))
+        .then(res => {
+          this.setState({ searchResults: res.data.items }, () => console.log(this.state.searchResults))
 
         })
         .catch(err => console.log(err));
     }
   };
 
-  saveBook = (title, authors, description, image, link ) => {
-    
+  saveBook = (title, authors, description, image, link) => {
+
     // event.preventDefault();
-      API.saveBook({
-        title,
-        authors,
-        description,
-        image,
-        link
-      }).then(res => this.loadBooks())
-        .catch(err => console.log(err));
-    
+    API.saveBook({
+      title,
+      authors,
+      description,
+      image,
+      link
+    }).then(res => this.loadBooks())
+      .catch(err => console.log(err));
+
   };
 
   render() {
@@ -82,21 +82,21 @@ class SavedBooks extends Component {
                   <ListItem key={book._id}>
                     <Link to={"/books/" + book._id}>
                       <strong>
-                        {book.title} 
-                      </strong> by {book.authors}
+                        {book.title}
+                      </strong> by {book.author}
                       <br></br>
-                    <br></br>
-                    <img src={book.image} alt="Book"/>
+                      <br></br>
+                      <img src={book.image} alt="Book" />
                     </Link>
-                    
+
 
                     <DeleteBtn onClick={() => this.deleteBook(book._id)} />
                   </ListItem>
                 ))}
               </List>
             ) : (
-              <h3>No Results to Display</h3>
-            )}
+                <h3>No Results to Display</h3>
+              )}
           </Col>
         </Row>
       </Container>
